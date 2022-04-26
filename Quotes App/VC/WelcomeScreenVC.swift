@@ -6,34 +6,52 @@
 // https://type.fit/api/quotes
 
 import UIKit
+//import IQKeyboardManagerSwift
 
 class WelcomeScreenVC: UIViewController {
     //MARK: - IBOutlets
     @IBOutlet weak var welcomeScreenImageView: UIImageView!
-    @IBOutlet weak var signUpButton: UIButton!
-    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var letsReadButton: UIButton!
     //MARK: - View Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpForButtons(buttons: [signUpButton,signInButton])
         setUpForImageView()
+        setUpForButton()
     }
-    //MARK: - IBAction
-    @IBAction func signUpButtonTapped(_ sender: UIButton) {
-        signInButton.backgroundColor = UIColor(cgColor: CGColor(red: 220, green: 224, blue: 227, alpha: 1))
+    //MARK: - IBActions
+    @IBAction func letsReadButtonTapped(_ sender: UIButton) {
+         validateTextField()
     }
-    @IBAction func signInButtonTapped(_ sender: UIButton) {
-        signUpButton.backgroundColor = UIColor(cgColor: CGColor(red: 223, green: 229, blue: 246, alpha: 1))
-    }
-    //MARK: - Initial SetUp For Buttons
-    private func setUpForButtons(buttons: [UIButton]) {
-        for button in buttons {
-            button.layer.cornerRadius = 10
-            button.layer.masksToBounds = true
-        }
-    }
+    //MARK: - Initial SetUp For Image View
     private func setUpForImageView() {
         welcomeScreenImageView.layer.cornerRadius = 20
         welcomeScreenImageView.layer.masksToBounds = true
+    }
+    //MARK: - Initial SetUp For Button
+    private func setUpForButton() {
+        letsReadButton.layer.cornerRadius = 10
+        letsReadButton.clipsToBounds = true
+        letsReadButton.layer.masksToBounds = false
+        letsReadButton.layer.shadowRadius = 3
+        letsReadButton.layer.shadowOpacity = 0.5
+        letsReadButton.layer.shadowOffset = CGSize(width: 4, height: 4)
+        letsReadButton.layer.shadowColor = UIColor.darkGray.cgColor
+    }
+    //MARK: - Show Blank TextField Alert
+    private func showAlert() {
+        let alert = UIAlertController(title: "Oops!", message: "You Missed To Enter Your Name", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okButton)
+        present(alert, animated: true, completion: nil)
+    }
+    //MARK: - Validate Text Field
+    private func validateTextField() {
+        if nameTextField.text == "" {
+            showAlert()
+        } else {
+            UserDefaults.standard.set(nameTextField.text!, forKey: "name")
+            self.performSegue(withIdentifier: "Home", sender: self)
+        }
     }
 }
