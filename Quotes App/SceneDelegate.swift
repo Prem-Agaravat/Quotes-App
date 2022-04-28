@@ -1,9 +1,5 @@
-//
-//  SceneDelegate.swift
-//  Quotes App
-//
-//  Created by R&W on 25/04/22.
-//
+//  Created by Prem on 25/04/22.
+
 
 import UIKit
 

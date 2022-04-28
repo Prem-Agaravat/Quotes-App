@@ -1,12 +1,6 @@
-//
-//  WelcomeScreenVC.swift
-//  Quotes App
-//
-//  Created by R&W on 25/04/22.
-// https://type.fit/api/quotes
+//  Created by Prem on 25/04/22.
 
 import UIKit
-//import IQKeyboardManagerSwift
 
 class WelcomeScreenVC: UIViewController {
     //MARK: - IBOutlets
@@ -16,6 +10,7 @@ class WelcomeScreenVC: UIViewController {
     //MARK: - View Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkUserLoggedIn()
         setUpForImageView()
         setUpForButton()
     }
@@ -50,8 +45,17 @@ class WelcomeScreenVC: UIViewController {
         if nameTextField.text == "" {
             showAlert()
         } else {
-            UserDefaults.standard.set(nameTextField.text!, forKey: "name")
+            UserDefaults.standard.set("\(nameTextField.text!)", forKey: "name")
+            UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
             self.performSegue(withIdentifier: "Home", sender: self)
+        }
+    }
+    //MARK: - Check User Is Logged In Or Not
+    private func checkUserLoggedIn() {
+        if UserDefaults.standard.value(forKey: "isUserLoggedIn") as? Bool ?? false {
+            self.performSegue(withIdentifier: "Home", sender: self)
+        } else {
+            print("Nothing")
         }
     }
 }
